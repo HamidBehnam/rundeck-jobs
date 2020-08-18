@@ -1,0 +1,85 @@
+<joblist>
+  <job>
+    <context>
+      <options preserveOrder='true'>
+        <option name='project_type' required='true'>
+          <description>The Project Type section in the url: the final url is going to be something like this: hamidev.com/project_type/project_path, for instance hamidev.com/angular/102</description>
+        </option>
+        <option name='project_path' required='true'>
+          <description>The Project Path section in the url: the final url is going to be something like this: hamidev.com/project_type/project_path, for instance hamidev.com/angular/102</description>
+        </option>
+        <option name='project_branch' required='true'>
+          <description>Project Branch, declares the source branch in the dest repository, master, qa, dev, ... .</description>
+        </option>
+      </options>
+    </context>
+    <defaultTab>nodes</defaultTab>
+    <description><![CDATA[The first rundeck job.
+
+Description for the first rundeck job.]]></description>
+    <executionEnabled>true</executionEnabled>
+    <group>administrations/resources</group>
+    <id>3935e4d5-044d-4011-8713-875b826a585b</id>
+    <loglevel>INFO</loglevel>
+    <name>Angular Deployment V1</name>
+    <nodeFilterEditable>false</nodeFilterEditable>
+    <plugins />
+    <scheduleEnabled>true</scheduleEnabled>
+    <sequence keepgoing='false' strategy='node-first'>
+      <command>
+        <script><![CDATA[cd /
+sudo rm -rf @option.project_type@_@option.project_path@_@option.project_branch@_temp
+sudo mkdir @option.project_type@_@option.project_path@_@option.project_branch@_temp
+echo @option.project_type@_@option.project_path@_@option.project_branch@_temp is created.
+cd @option.project_type@_@option.project_path@_@option.project_branch@_temp
+echo downloading the project.
+sudo git clone --single-branch --branch @option.project_branch@ https://github.com/HamidBehnam/hamidev-mobile-dev-env-angular-dest.git .]]></script>
+        <scriptargs />
+      </command>
+      <command>
+        <exec>echo project is downloaded.</exec>
+      </command>
+      <command>
+        <script><![CDATA[if [ @option.project_branch@ = "dev" ]
+then 
+sudo rm -rf /var/www/dev.hamidev.com/public_html/@option.project_type@/@option.project_path@/*
+sudo rm -rf /var/www/dev.hamidev.com/public_html/@option.project_type@/@option.project_path@
+echo the destination is cleared.
+sudo mkdir -p /var/www/dev.hamidev.com/public_html/@option.project_type@/@option.project_path@
+echo the destination is created.
+cd /@option.project_type@_@option.project_path@_@option.project_branch@_temp
+sudo cp -a . /var/www/dev.hamidev.com/public_html/@option.project_type@/@option.project_path@/
+echo the artifacts are copied to the destination.
+sudo rm -rf /@option.project_type@_@option.project_path@_@option.project_branch@_temp
+echo the temp direcotry is removed.
+elif [ @option.project_branch@ = "qa" ]
+then
+sudo rm -rf /var/www/qa.hamidev.com/public_html/@option.project_type@/@option.project_path@/*
+sudo rm -rf /var/www/qa.hamidev.com/public_html/@option.project_type@/@option.project_path@
+echo the destination is cleared.
+sudo mkdir -p /var/www/qa.hamidev.com/public_html/@option.project_type@/@option.project_path@
+echo the destination is created.
+cd /@option.project_type@_@option.project_path@_@option.project_branch@_temp
+sudo cp -a . /var/www/qa.hamidev.com/public_html/@option.project_type@/@option.project_path@/
+echo the artifacts are copied to the destination.
+sudo rm -rf /@option.project_type@_@option.project_path@_@option.project_branch@_temp
+echo the temp direcotry is removed.
+elif [ @option.project_branch@ = "master" ]
+then
+sudo rm -rf /var/www/hamidev.com/public_html/@option.project_type@/@option.project_path@/*
+sudo rm -rf /var/www/hamidev.com/public_html/@option.project_type@/@option.project_path@
+echo the destination is cleared.
+sudo mkdir -p /var/www/hamidev.com/public_html/@option.project_type@/@option.project_path@
+echo the destination is created.
+cd /@option.project_type@_@option.project_path@_@option.project_branch@_temp
+sudo cp -a . /var/www/hamidev.com/public_html/@option.project_type@/@option.project_path@/
+echo the artifacts are copied to the destination.
+sudo rm -rf /@option.project_type@_@option.project_path@_@option.project_branch@_temp
+echo the temp direcotry is removed.
+fi]]></script>
+        <scriptargs />
+      </command>
+    </sequence>
+    <uuid>3935e4d5-044d-4011-8713-875b826a585b</uuid>
+  </job>
+</joblist>
