@@ -2,6 +2,9 @@
   <job>
     <context>
       <options preserveOrder='true'>
+        <option name='domain_name' required='true'>
+          <description>Domain Name: for instance: hamidev.com or hamidbehnam.com</description>
+        </option>
         <option name='project_category' required='true'>
           <description>The Project Category section in the url: the final url is going to be something like this: hamidev.com/project_category/project_path, for instance hamidev.com/angular/102</description>
         </option>
@@ -43,43 +46,29 @@ sudo git clone --single-branch --branch @option.deployment_branch@ https://@opti
         <exec>echo project is downloaded.</exec>
       </command>
       <command>
-        <script><![CDATA[if [ @option.deployment_branch@ = "dev" ]
-then 
-sudo rm -rf /var/www/dev.hamidev.com/public_html/@option.project_category@/@option.project_path@/*
-sudo rm -rf /var/www/dev.hamidev.com/public_html/@option.project_category@/@option.project_path@
-echo the destination is cleared.
-sudo mkdir -p /var/www/dev.hamidev.com/public_html/@option.project_category@/@option.project_path@
-echo the destination is created.
-cd /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
-sudo cp -a . /var/www/dev.hamidev.com/public_html/@option.project_category@/@option.project_path@/
-echo the artifacts are copied to the destination.
-sudo rm -rf /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
-echo the temp direcotry is removed.
-elif [ @option.deployment_branch@ = "qa" ]
+        <script><![CDATA[if [ @option.deployment_branch@ = "master" ]
 then
-sudo rm -rf /var/www/qa.hamidev.com/public_html/@option.project_category@/@option.project_path@/*
-sudo rm -rf /var/www/qa.hamidev.com/public_html/@option.project_category@/@option.project_path@
-echo the destination is cleared.
-sudo mkdir -p /var/www/qa.hamidev.com/public_html/@option.project_category@/@option.project_path@
-echo the destination is created.
-cd /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
-sudo cp -a . /var/www/qa.hamidev.com/public_html/@option.project_category@/@option.project_path@/
+    sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_category@/@option.project_path@/*
+    sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_category@/@option.project_path@
+    echo the destination is cleared.
+    sudo mkdir -p /var/www/@option.domain_name@/public_html/@option.project_category@/@option.project_path@
+    echo the destination is created.
+    cd /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
+    sudo cp -a . /var/www/@option.domain_name@/public_html/@option.project_category@/@option.project_path@/
+else
+    sudo rm -rf /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_category@/@option.project_path@/*
+    sudo rm -rf /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_category@/@option.project_path@
+    echo the destination is cleared.
+    sudo mkdir -p /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_category@/@option.project_path@
+    echo the destination is created.
+    cd /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
+    sudo cp -a . /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_category@/@option.project_path@/
+fi
+
 echo the artifacts are copied to the destination.
 sudo rm -rf /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
 echo the temp direcotry is removed.
-elif [ @option.deployment_branch@ = "master" ]
-then
-sudo rm -rf /var/www/hamidev.com/public_html/@option.project_category@/@option.project_path@/*
-sudo rm -rf /var/www/hamidev.com/public_html/@option.project_category@/@option.project_path@
-echo the destination is cleared.
-sudo mkdir -p /var/www/hamidev.com/public_html/@option.project_category@/@option.project_path@
-echo the destination is created.
-cd /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
-sudo cp -a . /var/www/hamidev.com/public_html/@option.project_category@/@option.project_path@/
-echo the artifacts are copied to the destination.
-sudo rm -rf /@option.project_category@_@option.project_path@_@option.deployment_branch@_temp
-echo the temp direcotry is removed.
-fi]]></script>
+]]></script>
         <scriptargs />
       </command>
     </sequence>
