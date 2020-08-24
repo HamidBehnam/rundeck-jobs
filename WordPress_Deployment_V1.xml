@@ -1,0 +1,37 @@
+<joblist>
+  <job>
+    <context>
+      <options preserveOrder='true'>
+        <option name='deployment_branch' required='true' />
+        <option name='project_category' required='true' />
+        <option name='project_path' required='true' />
+        <option name='wordpress_repo' required='true'>
+          <description>This is the repo that conataiins the source code for this wordpress site.</description>
+        </option>
+      </options>
+    </context>
+    <defaultTab>nodes</defaultTab>
+    <description></description>
+    <executionEnabled>true</executionEnabled>
+    <group>administration/deployments</group>
+    <id>6d41331b-29e5-4af5-8401-708e84b49177</id>
+    <loglevel>INFO</loglevel>
+    <name>WordPress Deployment V1</name>
+    <nodeFilterEditable>false</nodeFilterEditable>
+    <plugins />
+    <scheduleEnabled>true</scheduleEnabled>
+    <sequence keepgoing='false' strategy='node-first'>
+      <command>
+        <script><![CDATA[cd /
+sudo rm -rf @option.project_category@_@option.project_path@_@option.deployment_branch@_temp
+sudo mkdir @option.project_category@_@option.project_path@_@option.deployment_branch@_temp
+echo @option.project_category@_@option.project_path@_@option.deployment_branch@_temp is created.
+cd @option.project_category@_@option.project_path@_@option.deployment_branch@_temp
+echo downloading the project.
+sudo git clone --single-branch --branch @option.deployment_branch@ https://@option.wordpress_repo@ .]]></script>
+        <scriptargs />
+      </command>
+    </sequence>
+    <uuid>6d41331b-29e5-4af5-8401-708e84b49177</uuid>
+  </job>
+</joblist>
