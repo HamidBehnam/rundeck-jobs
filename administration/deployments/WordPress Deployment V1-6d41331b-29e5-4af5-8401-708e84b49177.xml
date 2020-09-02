@@ -16,7 +16,8 @@
       </options>
     </context>
     <defaultTab>nodes</defaultTab>
-    <description></description>
+    <description><![CDATA[WordPress Deployment V1
+ID: 6d41331b-29e5-4af5-8401-708e84b49177]]></description>
     <executionEnabled>true</executionEnabled>
     <group>administration/deployments</group>
     <id>6d41331b-29e5-4af5-8401-708e84b49177</id>
