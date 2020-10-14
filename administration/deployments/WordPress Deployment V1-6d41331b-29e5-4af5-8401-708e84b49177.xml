@@ -39,9 +39,7 @@ sudo git clone --single-branch --branch @option.deployment_branch@ https://@opti
         <scriptargs />
       </command>
       <command>
-        <script><![CDATA[echo copying the wp files to destination
-
-if [ @option.deployment_branch@ = "master" ]
+        <script><![CDATA[if [ @option.deployment_branch@ = "master" ]
 then
     sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_category@/@option.project_path@/wp-content/*
     sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_category@/@option.project_path@/wp-content
