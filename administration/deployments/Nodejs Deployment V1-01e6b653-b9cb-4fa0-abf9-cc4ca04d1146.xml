@@ -1,0 +1,76 @@
+<joblist>
+  <job>
+    <context>
+      <options preserveOrder='true'>
+        <option name='domain_name' required='true'>
+          <description>Domain Name: for instance: hamidev.com or hamidbehnam.com</description>
+        </option>
+        <option name='project_path' required='true'>
+          <description>The Project Path section in the url: the final url is going to be something like this: hamidev.com/project_category/project_path, for instance hamidev.com/angular/102</description>
+        </option>
+        <option name='deployment_branch' required='true'>
+          <description>Deployment Branch, declares the source branch in the dest repository that we're gonna deploy to the server, master, qa, dev, ... .</description>
+        </option>
+        <option name='dest_repo' required='true'>
+          <description>The path to the project's dest repo, without https. for instance: github.com/HamidBehnam/hamidev-mobile-dev-env-angular-dest.git</description>
+        </option>
+        <option name='src_project_name' required='true'>
+          <description>Project Source Repo Name</description>
+        </option>
+      </options>
+    </context>
+    <defaultTab>nodes</defaultTab>
+    <description><![CDATA[Nodejs Deployment V1
+ID: 01e6b653-b9cb-4fa0-abf9-cc4ca04d1146]]></description>
+    <executionEnabled>true</executionEnabled>
+    <group>administration/deployments</group>
+    <id>01e6b653-b9cb-4fa0-abf9-cc4ca04d1146</id>
+    <loglevel>INFO</loglevel>
+    <name>Nodejs Deployment V1</name>
+    <nodeFilterEditable>false</nodeFilterEditable>
+    <plugins />
+    <scheduleEnabled>true</scheduleEnabled>
+    <sequence keepgoing='false' strategy='node-first'>
+      <command>
+        <script><![CDATA[cd /
+sudo rm -rf @option.src_project_name@_@option.deployment_branch@_temp
+sudo mkdir @option.src_project_name@_@option.deployment_branch@_temp
+echo @option.src_project_name@_@option.deployment_branch@_temp is created.
+cd @option.src_project_name@_@option.deployment_branch@_temp
+echo downloading the project.
+sudo git clone --single-branch --branch @option.deployment_branch@ https://@option.dest_repo@ .]]></script>
+        <scriptargs />
+      </command>
+      <command>
+        <exec>echo project is downloaded.</exec>
+      </command>
+      <command>
+        <script><![CDATA[if [ @option.deployment_branch@ = "master" ]
+then
+    sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_path@*
+    sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_path@
+    echo the destination is cleared.
+    sudo mkdir -p /var/www/@option.domain_name@/public_html/@option.project_path@
+    echo the destination is created.
+    cd /@option.src_project_name@_@option.deployment_branch@_temp
+    sudo cp -a . /var/www/@option.domain_name@/public_html/@option.project_path@
+else
+    sudo rm -rf /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@*
+    sudo rm -rf /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@
+    echo the destination is cleared.
+    sudo mkdir -p /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@
+    echo the destination is created.
+    cd /@option.src_project_name@_@option.deployment_branch@_temp
+    sudo cp -a . /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@
+fi
+
+echo the artifacts are copied to the destination.
+sudo rm -rf /@option.src_project_name@_@option.deployment_branch@_temp
+echo the temp direcotry is removed.
+]]></script>
+        <scriptargs />
+      </command>
+    </sequence>
+    <uuid>01e6b653-b9cb-4fa0-abf9-cc4ca04d1146</uuid>
+  </job>
+</joblist>
