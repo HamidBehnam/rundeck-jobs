@@ -45,7 +45,7 @@ sudo git clone --single-branch --branch @option.deployment_branch@ https://@opti
         <exec>echo project is downloaded.</exec>
       </command>
       <command>
-        <script><![CDATA[if [ @option.deployment_branch@ = "master" ]
+        <script><![CDATA[if [ @option.deployment_branch@ = "master" ] || [ @option.deployment_branch@ = "main" ]
 then
     sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_path@*
     sudo rm -rf /var/www/@option.domain_name@/public_html/@option.project_path@
