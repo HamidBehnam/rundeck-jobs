@@ -50,23 +50,39 @@ then
     sudo rm -rf /my_apps/@option.domain_name@/@option.src_project_name@/*
     sudo rm -rf /my_apps/@option.domain_name@/@option.src_project_name@/
     echo the destination is cleared.
-    sudo mkdir -p /my_apps/@option.domain_name@/@option.src_project_name@/
+    sudo mkdir -p /my_apps/@option.domain_name@/@option.src_project_name@/dist/
     echo the destination is created.
     cd /@option.src_project_name@_@option.deployment_branch@_temp
-    sudo cp -a . /my_apps/@option.domain_name@/@option.src_project_name@/
+    sudo cp -a . /my_apps/@option.domain_name@/@option.src_project_name@/dist/
+    sudo cp -a /my_apps/@option.domain_name@/config_files/@option.src_project_name@/. /my_apps/@option.domain_name@/@option.src_project_name@/
 else
     sudo rm -rf /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/*
     sudo rm -rf /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/
     echo the destination is cleared.
-    sudo mkdir -p /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/
+    sudo mkdir -p /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/dist/
     echo the destination is created.
     cd /@option.src_project_name@_@option.deployment_branch@_temp
-    sudo cp -a . /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/
+    sudo cp -a . /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/dist/
+    sudo cp -a /my_apps/@option.deployment_branch@.@option.domain_name@/config_files/@option.src_project_name@/. /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/
 fi
 
 echo the artifacts are copied to the destination.
 sudo rm -rf /@option.src_project_name@_@option.deployment_branch@_temp
 echo the temp direcotry is removed.
+
+]]></script>
+        <scriptargs />
+      </command>
+      <command>
+        <script><![CDATA[if [ @option.deployment_branch@ = "master" ] || [ @option.deployment_branch@ = "main" ]
+then
+    PM2_HOME=/etc/pm2deamon/ pm2 stop -s /my_apps/@option.domain_name@/@option.src_project_name@/dist/server.js || :
+    PM2_HOME=/etc/pm2deamon/ pm2 start /my_apps/@option.domain_name@/@option.src_project_name@/dist/server.js --name=@option.src_project_name@_prod
+else
+    PM2_HOME=/etc/pm2deamon/ pm2 stop -s /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/dist/server.js || :
+    PM2_HOME=/etc/pm2deamon/ pm2 start /my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/dist/server.js --name=@option.src_project_name@_@option.deployment_branch@
+fi
+
 ]]></script>
         <scriptargs />
       </command>
