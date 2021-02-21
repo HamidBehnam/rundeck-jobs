@@ -12,7 +12,7 @@
           <description>This is the Dest repo containing the front end compiled files.</description>
         </option>
         <option name='theme_name' required='true' />
-        <option name='mysql_root_pass' required='true' />
+        <option name='mysql_root_pass' required='true' secure='true' storagePath='keys/mysql_root_pass' valueExposed='true' />
         <option name='src_project_name' required='true'>
           <description>Project Source Repo Name</description>
         </option>
@@ -49,8 +49,8 @@ then
     sudo mkdir -p /var/www/@option.domain_name@/public_html/@option.project_path@wp-content
     echo the destination is created.
     cd /@option.src_project_name@_@option.deployment_branch@_temp
-    mysql -u root -p@option.mysql_root_pass@ @option.src_project_name@_@option.deployment_branch@ < themes/@option.theme_name@/resources/db_backup/db_backup.sql
-    mysql -u root -p@option.mysql_root_pass@ @option.src_project_name@_@option.deployment_branch@ -e "UPDATE wp_options SET option_value = 'https://@option.domain_name@/@option.project_path@' WHERE option_name = 'siteurl' OR option_name = 'home'";
+    mysql -u root -p'@option.mysql_root_pass@' @option.src_project_name@_@option.deployment_branch@ < themes/@option.theme_name@/resources/db_backup/db_backup.sql
+    mysql -u root -p'@option.mysql_root_pass@' @option.src_project_name@_@option.deployment_branch@ -e "UPDATE wp_options SET option_value = 'https://@option.domain_name@/@option.project_path@' WHERE option_name = 'siteurl' OR option_name = 'home'";
     sudo rm Jenkinsfile
     sudo rm README.md
     sudo rm -rf themes/@option.theme_name@/resources/*
@@ -62,8 +62,8 @@ else
     sudo mkdir -p /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@wp-content
     echo the destination is created.
     cd /@option.src_project_name@_@option.deployment_branch@_temp
-    mysql -u root -p@option.mysql_root_pass@ @option.src_project_name@_@option.deployment_branch@ < themes/@option.theme_name@/resources/db_backup/db_backup.sql
-    mysql -u root -p@option.mysql_root_pass@ @option.src_project_name@_@option.deployment_branch@ -e "UPDATE wp_options SET option_value = 'https://@option.deployment_branch@.@option.domain_name@/@option.project_path@' WHERE option_name = 'siteurl' OR option_name = 'home'";
+    mysql -u root -p'@option.mysql_root_pass@' @option.src_project_name@_@option.deployment_branch@ < themes/@option.theme_name@/resources/db_backup/db_backup.sql
+    mysql -u root -p'@option.mysql_root_pass@' @option.src_project_name@_@option.deployment_branch@ -e "UPDATE wp_options SET option_value = 'https://@option.deployment_branch@.@option.domain_name@/@option.project_path@' WHERE option_name = 'siteurl' OR option_name = 'home'";
     sudo rm Jenkinsfile
     sudo rm README.md
     sudo rm -rf themes/@option.theme_name@/resources/*
