@@ -55,6 +55,8 @@ then
     sudo rm README.md
     sudo rm -rf themes/@option.theme_name@/resources/*
     sudo cp -a . /var/www/@option.domain_name@/public_html/@option.project_path@wp-content/
+    sudo chown -R www-data /var/www/@option.domain_name@/public_html/@option.project_path
+    sudo chown -R www-data /var/www/@option.domain_name@/public_html/@option.project_path@wp-content/
 else
     sudo rm -rf /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@wp-content/*
     sudo rm -rf /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@wp-content
@@ -68,6 +70,8 @@ else
     sudo rm README.md
     sudo rm -rf themes/@option.theme_name@/resources/*
     sudo cp -a . /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@wp-content/
+    sudo chown -R www-data /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path
+    sudo chown -R www-data /var/www/@option.deployment_branch@.@option.domain_name@/public_html/@option.project_path@wp-content/
 fi
 
 echo the artifacts are copied to the destination.
