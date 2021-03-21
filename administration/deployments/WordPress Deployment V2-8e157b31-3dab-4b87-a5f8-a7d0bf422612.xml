@@ -34,7 +34,7 @@ sudo mkdir @option.src_project_name@_@option.deployment_branch@_temp
 echo @option.src_project_name@_@option.deployment_branch@_temp is created.
 cd @option.src_project_name@_@option.deployment_branch@_temp
 echo downloading the project.
-sudo git clone --single-branch --branch @option.deployment_branch@ https://@option.src_repo@ .]]></script>
+sudo git clone --single-branch --branch @option.deployment_branch@ @option.src_repo@ .]]></script>
         <scriptargs />
       </command>
       <command>
