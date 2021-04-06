@@ -83,7 +83,9 @@ else
     sudo PM2_HOME=/etc/pm2daemon/.pm2 pm2 start /etc/my_apps/@option.deployment_branch@.@option.domain_name@/@option.src_project_name@/dist/server.js -i max --name=@option.src_project_name@_@option.deployment_branch@
 fi
 
-sudo PM2_HOME=/etc/pm2daemon/.pm2 pm2 save]]></script>
+sudo PM2_HOME=/etc/pm2daemon/.pm2 pm2 save
+
+]]></script>
         <scriptargs />
       </command>
     </sequence>
