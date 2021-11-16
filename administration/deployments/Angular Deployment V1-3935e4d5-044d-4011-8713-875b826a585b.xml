@@ -17,6 +17,8 @@
         <option name='src_project_name' required='true'>
           <description>Project Source Repo Name</description>
         </option>
+        <option name='git_cred' required='true' secure='true' storagePath='keys/git_cred' valueExposed='true' />
+        <option name='git_user_name' required='true' secure='true' storagePath='keys/git_user_name' valueExposed='true' />
       </options>
     </context>
     <defaultTab>nodes</defaultTab>
@@ -38,7 +40,7 @@ sudo mkdir @option.src_project_name@_@option.deployment_branch@_temp
 echo @option.src_project_name@_@option.deployment_branch@_temp is created.
 cd @option.src_project_name@_@option.deployment_branch@_temp
 echo downloading the project.
-sudo git clone --single-branch --branch @option.deployment_branch@ https://@option.dest_repo@ .]]></script>
+sudo git clone --single-branch --branch @option.deployment_branch@ https://@option.git_user_name@:@option.git_cred@@@@option.dest_repo@ .]]></script>
         <scriptargs />
       </command>
       <command>
